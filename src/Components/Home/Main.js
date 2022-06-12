@@ -21,13 +21,13 @@ const Main = () => {
     const [all, setAll] = useState();
 
     useEffect(() => {
-        fetch('http://localhost:5000/displayprogress')
+        fetch('https://hidden-dawn-10699.herokuapp.com/displayprogress')
             .then(res => res.json())
             .then(data => setProgresses(data))
     }, [reload])
 
     useEffect(() => {
-        fetch('http://localhost:5000/displaydone')
+        fetch('https://hidden-dawn-10699.herokuapp.com/displaydone')
             .then(res => res.json())
             .then(data => setDone(data))
     }, [reload2])
@@ -35,7 +35,7 @@ const Main = () => {
     // console.log(all);
 
     const { isLoading, error, data: tasks, refetch } = useQuery('repoTask', () =>
-        fetch('http://localhost:5000/todo').then(res =>
+        fetch('https://hidden-dawn-10699.herokuapp.com/todo').then(res =>
             res.json()
         )
     )
@@ -53,7 +53,7 @@ const Main = () => {
         const description = e.target.descrip.value;
         const data = { title, description };
         // console.log(data);
-        fetch('http://localhost:5000/postdata', {
+        fetch('https://hidden-dawn-10699.herokuapp.com/postdata', {
             method: "POST",
             headers: {
                 "content-type": "application/json"
@@ -71,7 +71,7 @@ const Main = () => {
     }
 
     const searching = (text) => {
-        fetch(`http://localhost:5000/todo/title?=${text}`)
+        fetch(`https://hidden-dawn-10699.herokuapp.com/todo/title?=${text}`)
             .then(res => res.json())
             .then(result => {
 

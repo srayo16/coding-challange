@@ -13,7 +13,7 @@ const Todo = ({ task, index, setReload, reload, setReload2, reload2, refetch }) 
     const sendToProgress = (titlePro, descriptionPro) => {
         const progress = { titlePro, descriptionPro };
 
-        fetch('http://localhost:5000/inprogress', {
+        fetch('https://hidden-dawn-10699.herokuapp.com/inprogress', {
             method: "POST",
             headers: {
                 "content-type": "application/json"
@@ -36,7 +36,7 @@ const Todo = ({ task, index, setReload, reload, setReload2, reload2, refetch }) 
     const sendToDone = (titlePro, descriptionPro) => {
         const done = { titlePro, descriptionPro };
 
-        fetch('http://localhost:5000/indone', {
+        fetch('https://hidden-dawn-10699.herokuapp.com/indone', {
             method: "POST",
             headers: {
                 "content-type": "application/json"
@@ -58,7 +58,7 @@ const Todo = ({ task, index, setReload, reload, setReload2, reload2, refetch }) 
         const confirm = window.confirm('Are you sure to delete this?');
 
         if (confirm) {
-            fetch(`http://localhost:5000/deletedata/${id}`, {
+            fetch(`https://hidden-dawn-10699.herokuapp.com/deletedata/${id}`, {
                 method: "DELETE"
             })
                 .then(res => res.json())
