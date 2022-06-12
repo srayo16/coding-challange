@@ -18,7 +18,7 @@ const Main = () => {
     const [done, setDone] = useState([]);
     const [reload, setReload] = useState(false);
     const [reload2, setReload2] = useState(false);
-
+    const [all, setAll] = useState();
 
     useEffect(() => {
         fetch('http://localhost:5000/displayprogress')
@@ -32,6 +32,8 @@ const Main = () => {
             .then(data => setDone(data))
     }, [reload2])
 
+    // console.log(all);
+
     const { isLoading, error, data: tasks, refetch } = useQuery('repoTask', () =>
         fetch('http://localhost:5000/todo').then(res =>
             res.json()
@@ -41,7 +43,7 @@ const Main = () => {
     if (isLoading) return <Loading></Loading>
 
     if (error) return 'An error has occurred: ' + error.message
-    // console.log(tasks);
+    console.log(tasks);
 
     // addTask submit
     const getData = e => {
@@ -68,12 +70,23 @@ const Main = () => {
             })
     }
 
+    const searching = (text) => {
+        fetch(`http://localhost:5000/todo/title?=${text}`)
+            .then(res => res.json())
+            .then(result => {
+
+            })
+
+    }
     return (
         <>
-            <div className='container mt-5  bg-secondary bg-gradient'>
+            <div className='container text-center mt-5 mb-5 '>
+                <input type="text" className='w-75 p-2' onChange={searching} placeholder='search here' />
+            </div>
+            <div className='container bg-secondary bg-gradient mb-5'>
                 <h1 className='text-center fw-bolder pt-3 pb-4' style={{ color: 'orange' }}>Check your Work Board</h1>
-                <div className='row gx-5 gy-5'>
-                    <div className='col-12 col-sm-12 col-md-6 col-lg-4'>
+                <div className='row gx-5 gy-1'>
+                    <div className='col-12 col-sm-12 col-md-6 col-lg-4' style={{ height: 'auto' }}>
                         <div className='mx-auto text-center'>
                             <Dropdown as={ButtonGroup}>
                                 <Button variant="success" className='ps-5 pe-4 fw-bolder'>TO DO</Button>
@@ -97,7 +110,7 @@ const Main = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        tasks?.map((task, index) => <Todo task={task} index={index} key={task._id} setReload={setReload} reload={reload} setReload2={setReload2} reload2={reload2}></Todo>)
+                                        tasks?.map((task, index) => <Todo task={task} index={index} key={task._id} setReload={setReload} reload={reload} setReload2={setReload2} reload2={reload2} refetch={refetch}></Todo>)
                                     }
                                 </tbody>
                             </Table>
@@ -105,7 +118,7 @@ const Main = () => {
                     </div>
 
 
-                    <div className='col-12 col-sm-12 col-md-6 col-lg-4' style={{ borderLeft: '3px solid black', height: '500px' }}>
+                    <div className='col-12 col-sm-12 col-md-6 col-lg-4' style={{ borderLeft: '3px solid black', height: 'auto' }}>
                         <h5 className='text-center mb-3 pt-2 pb-2 rounded bg-success text-light'>Progress</h5>
                         <Table striped bordered hover responsive variant="dark">
                             <thead>
@@ -123,7 +136,7 @@ const Main = () => {
                         </Table>
 
                     </div>
-                    <div className='col-12 col-sm-12 col-md-6 col-lg-4' style={{ borderLeft: '3px solid black', height: '500px' }}>
+                    <div className='col-12 col-sm-12 col-md-6 col-lg-4' style={{ borderLeft: '3px solid black', height: 'auto' }}>
                         <h5 className='text-center mb-3 pt-2 pb-2 rounded bg-success text-light'>Done</h5>
                         <Table striped bordered hover responsive variant="dark">
                             <thead>

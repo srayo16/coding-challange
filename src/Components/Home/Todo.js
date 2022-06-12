@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Dropdown, DropdownButton, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
-const Todo = ({ task, index, setReload, reload, setReload2, reload2 }) => {
+const Todo = ({ task, index, setReload, reload, setReload2, reload2, refetch }) => {
     const { title, description, _id } = task;
     const [disable, setDisable] = useState(false);
     const [disabledone, setDisabledone] = useState(false);
@@ -53,6 +53,25 @@ const Todo = ({ task, index, setReload, reload, setReload2, reload2 }) => {
                 }
             })
     }
+
+    const deleteData = (id) => {
+        const confirm = window.confirm('Are you sure to delete this?');
+
+        if (confirm) {
+            fetch(`http://localhost:5000/deletedata/${id}`, {
+                method: "DELETE"
+            })
+                .then(res => res.json())
+                .then(deleted => {
+                    if (deleted.acknowledged) {
+                        // console.log(deleted);
+                        refetch();
+                        toast.success('Delete successful');
+                    }
+                })
+        }
+    }
+
     return (
         <tr>
             <td>{index + 1}</td>
@@ -88,10 +107,8 @@ const Todo = ({ task, index, setReload, reload, setReload2, reload2 }) => {
                                         <Button variant="dark" disabled={disabledone} onClick={() => sendToDone(title, description)} className='me-1'>Done</Button>
                                     </Modal.Body>
                                 </Modal></Dropdown.Item>
-                            <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
-                            <Dropdown.Item eventKey="3">Something else here</Dropdown.Item>
-                            <Dropdown.Divider />
-                            <Dropdown.Item eventKey="4">Separated link</Dropdown.Item>
+                            <Dropdown.Item eventKey="2" onClick={() => deleteData(_id)}>Delete</Dropdown.Item>
+                            <Dropdown.Item eventKey="3">Archive</Dropdown.Item>
                         </DropdownButton>
                     ))}
                 </span>}</td>
