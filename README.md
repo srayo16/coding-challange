@@ -1,3 +1,3 @@
-# Getting Started with Create React App
+# Coding Challenge by Srayo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Here the live site link [Work Board](https://coding-challenge-srayo.netlify.app/).
